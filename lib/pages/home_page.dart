@@ -20,7 +20,11 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home Page'),
         actions: [
-          GestureDetector(onTap: signOut, child: const Icon(Icons.logout))
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: GestureDetector(
+                onTap: signOut, child: const Icon(Icons.logout)),
+          )
         ],
       ),
       body: _buildUserList(),
@@ -35,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
     if (_auth.currentUser!.email != data['email']) {
       return ListTile(
-        title: Text(data['email']),
+        title: Text(data['name']),
         onTap: () {
           Navigator.push(
             context,
@@ -43,6 +47,7 @@ class _HomePageState extends State<HomePage> {
               builder: (context) => ChatPage(
                 receiverUserEmail: data['email'],
                 receiverUserId: data['uid'],
+                receiverUserName: data['name'],
               ),
             ),
           );

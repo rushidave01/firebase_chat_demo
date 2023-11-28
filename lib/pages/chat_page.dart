@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
   final String receiverUserEmail;
+  final String receiverUserName;
   final String receiverUserId;
   const ChatPage(
       {super.key,
       required this.receiverUserEmail,
-      required this.receiverUserId});
+      required this.receiverUserId,
+      required this.receiverUserName});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -32,7 +34,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.receiverUserEmail),
+        title: Text(widget.receiverUserName),
       ),
       body: Column(children: [
         Expanded(child: _buildMessageList()),
@@ -64,6 +66,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           ChatBubble(
             message: data['message'],
+            rightCorner: data['senderId'] == _firebaseAuth.currentUser!.uid,
           ),
         ],
       ),
@@ -71,21 +74,25 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildMessageInput() {
-    return Row(
-      children: [
-        Expanded(
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Row(
+        children: [
+          Expanded(
             child: MyTextField(
                 controller: _messageController,
                 obsecure: false,
-                hintText: 'Message')),
-        InkWell(
-          onTap: sendMessage,
-          child: const Icon(
-            Icons.arrow_upward,
-            size: 40,
+                hintText: 'Message'),
           ),
-        )
-      ],
+          InkWell(
+            onTap: sendMessage,
+            child: const Icon(
+              Icons.arrow_upward,
+              size: 40,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

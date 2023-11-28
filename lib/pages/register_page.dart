@@ -13,6 +13,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -47,6 +49,20 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(
                     height: 25,
+                  ),
+                  MyTextField(
+                      controller: nameController,
+                      obsecure: false,
+                      hintText: 'Name'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  MyTextField(
+                      controller: phoneNumberController,
+                      obsecure: false,
+                      hintText: 'Phone Number'),
+                  const SizedBox(
+                    height: 10,
                   ),
                   MyTextField(
                       controller: emailController,
@@ -111,8 +127,11 @@ class _RegisterPageState extends State<RegisterPage> {
             content: Text('Password and confirm password are not same')));
         return;
       } else {
-        Provider.of<AuthService>(context, listen: false)
-            .signUp(emailController.text, passwordController.text);
+        Provider.of<AuthService>(context, listen: false).signUp(
+            nameController.text,
+            phoneNumberController.text,
+            emailController.text,
+            passwordController.text);
       }
     } catch (e) {
       ScaffoldMessenger.of(context)
